@@ -3,42 +3,50 @@ package com.portfolio.Portfolio.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.portfolio.Portfolio.model.Persona;
+import com.portfolio.Portfolio.model.Proyecto;
 import com.portfolio.Portfolio.service.IPersonaService;
+import com.portfolio.Portfolio.service.IProyectoService;
 
 @RestController
 public class Controller {
 
     @Autowired
-    private IPersonaService persoServ;
+    private IPersonaService personaService;
 
-    @GetMapping("/hola")
-    public String decirHola() {
-        return "Hola mundo";
-    }
+    @Autowired
+    private IProyectoService proyectoService;
 
     @PostMapping("/new/persona")
-    public void agregarPersona(@RequestBody Persona pers) {
-        persoServ.crearPersona(pers);
+    public void agregarPersona(@RequestBody Persona persona) {
+        personaService.crearPersona(persona);
     }
 
     @GetMapping("/ver/personas")
-    @ResponseBody
     public List<Persona> verPersonas() {
-        return persoServ.verPersonas();
+        return personaService.verPersonas();
     }
 
     @DeleteMapping("/delete/{id}")
     public void borrarPersona(@PathVariable Long id) {
-        persoServ.borrarPersona(id);
+        personaService.borrarPersona(id);
+    }
+
+    @PostMapping("/new/proyecto")
+    public void agregarProyecto(@RequestBody Proyecto proyecto) {
+        proyectoService.crearProyecto(proyecto);
+    }
+
+    @GetMapping("/ver/proyectos")
+    public List<Proyecto> verProyectos() {
+        return proyectoService.verProyectos();
+    }
+
+    @DeleteMapping("/delete/proyecto/{id}")
+    public void borrarProyecto(@PathVariable Long id) {
+        proyectoService.borrarProyecto(id);
     }
 
 }

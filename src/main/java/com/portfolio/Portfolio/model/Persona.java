@@ -1,9 +1,13 @@
 package com.portfolio.Portfolio.model;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +22,9 @@ public class Persona {
     private String nombre;
     private String apellido;
 
+    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Proyecto> proyectos;
+
     public Persona() {
     }
 
@@ -25,6 +32,7 @@ public class Persona {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
+        
     }
 
 }
