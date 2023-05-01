@@ -1,6 +1,9 @@
 package com.portfolio.Portfolio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,8 +23,9 @@ public class Proyecto {
   private String nombre;
   private String descripcion;
 
-  @ManyToOne
-  @JoinColumn(name = "persona_id", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "persona_id")
+  @JsonIgnore
   private Persona persona;
 
   public Proyecto() {

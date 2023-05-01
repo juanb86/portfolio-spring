@@ -6,9 +6,9 @@ import com.portfolio.Portfolio.model.Proyecto;
 
 public interface IProyectoService {
 
-  public List<Proyecto> verProyectos();
+  public List<Proyecto> verProyectos(Long id);
 
-  public void crearProyecto(Proyecto proyecto);
+  public void crearProyecto(Proyecto proyecto,Long id);
 
   public void borrarProyecto(Long id);
 

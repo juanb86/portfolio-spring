@@ -11,6 +11,7 @@ import com.portfolio.Portfolio.service.IPersonaService;
 import com.portfolio.Portfolio.service.IProyectoService;
 
 @RestController
+@RequestMapping("/personas")
 public class Controller {
 
     @Autowired
@@ -19,29 +20,35 @@ public class Controller {
     @Autowired
     private IProyectoService proyectoService;
 
-    @PostMapping("/new/persona")
-    public void agregarPersona(@RequestBody Persona persona) {
-        personaService.crearPersona(persona);
-    }
 
-    @GetMapping("/ver/personas")
+    @GetMapping
     public List<Persona> verPersonas() {
         return personaService.verPersonas();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PostMapping
+    public void agregarPersona(@RequestBody Persona persona) {
+        personaService.crearPersona(persona);
+    }
+
+    @GetMapping("/{id}")
+    public Persona buscarPersona(@PathVariable Long id) {
+        return personaService.buscarPersona(id);
+    }
+
+    @DeleteMapping("/{id}")
     public void borrarPersona(@PathVariable Long id) {
         personaService.borrarPersona(id);
     }
 
-    @PostMapping("/new/proyecto")
-    public void agregarProyecto(@RequestBody Proyecto proyecto) {
-        proyectoService.crearProyecto(proyecto);
+    @GetMapping("/{id}/proyectos")
+    public List<Proyecto> verProyectos(@PathVariable Long id) {
+        return proyectoService.verProyectos(id);
     }
 
-    @GetMapping("/ver/proyectos")
-    public List<Proyecto> verProyectos() {
-        return proyectoService.verProyectos();
+    @PostMapping("/{id}/proyectos")
+    public void agregarProyecto(@PathVariable Long id, @RequestBody Proyecto proyecto) {
+        proyectoService.crearProyecto(proyecto,id);
     }
 
     @DeleteMapping("/delete/proyecto/{id}")

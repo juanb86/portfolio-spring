@@ -1,6 +1,9 @@
 package com.portfolio.Portfolio.model;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -22,8 +25,9 @@ public class Persona {
     private String nombre;
     private String apellido;
 
-    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Proyecto> proyectos;
+    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Proyecto> proyectos = new ArrayList<>();
 
     public Persona() {
     }
@@ -32,7 +36,5 @@ public class Persona {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
-        
     }
-
 }
