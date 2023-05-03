@@ -13,14 +13,17 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.portfolio.Portfolio.repository.UserRepository;
+import com.portfolio.Portfolio.security.JwtTokenFilter;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 public class SecurityConfig {
 
   @Autowired
   private UserRepository userRepo;
+  @Autowired
+  private JwtTokenFilter jwtTokenFilter;
 
   @Bean
   public UserDetailsService userDetailsService() {
@@ -51,21 +54,20 @@ public class SecurityConfig {
     http.csrf().disable();
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-    http.authorizeHttpRequests().anyRequest().permitAll();
-    // http.authorizeHttpRequests()
-    // .requestMatchers("/auth/login", "/docs/**", "/users").permitAll()
-    // .anyRequest().authenticated();
+    // http.authorizeHttpRequests().anyRequest().permitAll();
+    http.authorizeHttpRequests()
+        .requestMatchers("/auth/login", "/auth/register", "/docs/**", "/users").permitAll()
+        .anyRequest().authenticated();
 
-    // http.exceptionHandling()
-    // .authenticationEntryPoint(
-    // (request, response, ex) -> {
-    // response.sendError(
-    // HttpServletResponse.SC_UNAUTHORIZED,
-    // ex.getMessage());
-    // });
+    http.exceptionHandling()
+        .authenticationEntryPoint(
+            (request, response, ex) -> {
+              response.sendError(
+                  HttpServletResponse.SC_UNAUTHORIZED,
+                  ex.getMessage());
+            });
 
-    // http.addFilterBefore(jwtTokenFilter,
-    // UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }

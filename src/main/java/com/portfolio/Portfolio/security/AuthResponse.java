@@ -12,5 +12,19 @@ public class AuthResponse {
     this.accessToken = accessToken;
   }
 
-  // getters and setters are not shown...
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getAccessToken() {
+    return accessToken;
+  }
+
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
 }

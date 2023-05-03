@@ -13,6 +13,7 @@ import com.portfolio.Portfolio.model.User;
 import com.portfolio.Portfolio.security.AuthRequest;
 import com.portfolio.Portfolio.security.AuthResponse;
 import com.portfolio.Portfolio.security.JwtTokenUtil;
+import com.portfolio.Portfolio.service.IUserService;
 
 import jakarta.validation.Valid;
 
@@ -24,6 +25,9 @@ public class AuthController {
 
   @Autowired
   JwtTokenUtil jwtUtil;
+
+  @Autowired
+  private IUserService userService;
 
   @GetMapping("/hola")
   public String decirHola() {
@@ -46,6 +50,11 @@ public class AuthController {
     } catch (BadCredentialsException ex) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+  }
+
+  @PostMapping("/auth/register")
+  public void register(@RequestBody User user) {
+    userService.register(user);
   }
 
 }

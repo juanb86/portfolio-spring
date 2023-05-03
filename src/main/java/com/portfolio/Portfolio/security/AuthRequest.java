@@ -11,7 +11,8 @@ public class AuthRequest {
   @Length(min = 5, max = 50)
   private String email;
 
-  @jakarta.validation.constraints.NotNull
+  // @jakarta.validation.constraints.NotNull
+  @NotNull
   @Length(min = 5, max = 10)
   private String password;
 
