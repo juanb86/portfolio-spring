@@ -2,6 +2,7 @@ package com.portfolio.Portfolio.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -59,7 +60,11 @@ public class SecurityConfig {
     // http.authorizeHttpRequests().anyRequest().permitAll();
     http.cors().and()
         .csrf().disable().authorizeHttpRequests()
-        .requestMatchers("/auth/login", "/personas", "/auth/register", "/docs/**", "/users").permitAll()
+        .requestMatchers("/auth/login", "/auth/register")
+        .permitAll()
+        .requestMatchers(HttpMethod.GET, "/persona/**",
+            "/educacion/**")
+        .permitAll()
         .anyRequest().authenticated();
 
     http.exceptionHandling()
