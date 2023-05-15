@@ -9,11 +9,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.portfolio.Portfolio.model.Educacion;
+import com.portfolio.Portfolio.model.Experiencia;
 import com.portfolio.Portfolio.model.Habilidad;
 import com.portfolio.Portfolio.model.Persona;
 import com.portfolio.Portfolio.model.Proyecto;
 import com.portfolio.Portfolio.model.User;
 import com.portfolio.Portfolio.service.IEducacionService;
+import com.portfolio.Portfolio.service.IExperienciaService;
 import com.portfolio.Portfolio.service.IHabilidadService;
 import com.portfolio.Portfolio.service.IPersonaService;
 import com.portfolio.Portfolio.service.IProyectoService;
@@ -33,6 +35,9 @@ public class Controller {
 
     @Autowired
     private IHabilidadService habilidadService;
+
+    @Autowired
+    private IExperienciaService experienciaService;
 
     @Autowired
     private IProyectoService proyectoService;
@@ -117,6 +122,37 @@ public class Controller {
     @DeleteMapping("/habilidad/{id}")
     public void borrarHabilidad(@PathVariable Long id) {
         habilidadService.borrarHabilidad(id);
+    }
+
+    // ---Controllers Experiencia---
+    @PostMapping("/experiencia")
+    public void crearExperiencia(@RequestBody Experiencia experiencia) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Integer userId = ((User) authentication.getPrincipal()).getId();
+
+        experienciaService.crearExperiencia(userId, experiencia);
+    }
+
+    @GetMapping("/experiencia/user/{userId}")
+    public List<Experiencia> obtenerExperiencia(@PathVariable Integer userId) {
+
+        return experienciaService.obtenerExperiencia(userId);
+    }
+
+    @PutMapping("/experiencia/{id}")
+    public void modificarExperiencia(@PathVariable Long id,
+            @RequestBody Experiencia experiencia) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Integer userId = ((User) authentication.getPrincipal()).getId();
+
+        experienciaService.modificarExperiencia(userId, id, experiencia);
+    }
+
+    @DeleteMapping("/experiencia/{id}")
+    public void borrarExperiencia(@PathVariable Long id) {
+        experienciaService.borrarExperiencia(id);
     }
 
     // ---Controllers Proyectos---
