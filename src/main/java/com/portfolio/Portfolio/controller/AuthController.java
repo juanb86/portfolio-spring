@@ -18,6 +18,7 @@ import com.portfolio.Portfolio.service.IUserService;
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
 
   @Autowired
@@ -56,5 +57,4 @@ public class AuthController {
   public void register(@RequestBody User user) {
     userService.register(user);
   }
-
 }

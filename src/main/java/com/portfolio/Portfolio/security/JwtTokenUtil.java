@@ -1,52 +1,43 @@
 package com.portfolio.Portfolio.security;
 
-import java.nio.charset.StandardCharsets;
-// import java.security.Key;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-// import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Component;
 
 import com.portfolio.Portfolio.model.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtParser;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-// import io.jsonwebtoken.SignatureAlgorithm;
-// import io.jsonwebtoken.SignatureException;
+
 import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.io.Encoders;
+import io.jsonwebtoken.io.Decoders;
+
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
 
 @Component
 public class JwtTokenUtil {
   private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
-  
+
   private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hour
 
-  SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+  String secretKeyTest = "/NC2CvoKSClxP39bsWhO6dp64GNrPKMw4tAEOjGlNbM=";
 
-  String secretString = Encoders.BASE64.encode(key.getEncoded());
-
-  // public void logging() {
-  //   System.out.println(secretString);
-  // }
+  SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKeyTest));
 
   public String generateAccessToken(User user) {
 
-    // logging();
-
     return Jwts.builder()
         .setSubject(String.format("%s,%s", user.getId(), user.getEmail()))
-        .setIssuer("CodeJava")
+        .setIssuer("juanb86-Portfolio-API")
         .setIssuedAt(new Date())
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION))
         .signWith(key)
@@ -54,10 +45,9 @@ public class JwtTokenUtil {
 
   }
 
-
   public boolean validateAccessToken(String token) {
     try {
-      ((JwtParser) Jwts.parserBuilder().setSigningKey(key)).parseClaimsJws(token);
+      Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
       return true;
     } catch (ExpiredJwtException ex) {
       LOGGER.error("JWT expired", ex.getMessage());
@@ -79,8 +69,8 @@ public class JwtTokenUtil {
   }
 
   private Claims parseClaims(String token) {
-    return ((JwtParser) Jwts.parserBuilder()
-        .setSigningKey(key))
+    return Jwts.parserBuilder()
+        .setSigningKey(key).build()
         .parseClaimsJws(token)
         .getBody();
   }

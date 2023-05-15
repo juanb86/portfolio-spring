@@ -56,7 +56,7 @@ public class SecurityConfig {
 
     // http.authorizeHttpRequests().anyRequest().permitAll();
     http.authorizeHttpRequests()
-        .requestMatchers("/auth/login", "/auth/register", "/docs/**", "/users").permitAll()
+        .requestMatchers("/auth/login", "/personas", "/auth/register", "/docs/**", "/users").permitAll()
         .anyRequest().authenticated();
 
     http.exceptionHandling()
@@ -68,6 +68,8 @@ public class SecurityConfig {
             });
 
     http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+    // http.cors().disable();
 
     return http.build();
   }
