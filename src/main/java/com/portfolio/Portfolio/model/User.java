@@ -25,6 +25,14 @@ public class User implements UserDetails {
   @Column(nullable = false, length = 64)
   private String password;
 
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Persona persona;
+
+  // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =
+  // true)
+  // @JsonIgnore
+  // private List<Proyecto> proyectos = new ArrayList<>();
+
   public User() {
   }
 
