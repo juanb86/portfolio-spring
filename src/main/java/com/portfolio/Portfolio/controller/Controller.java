@@ -34,7 +34,7 @@ public class Controller {
 
     // ---Controllers Persona---
     @RequestMapping(value = "/persona", method = { RequestMethod.POST, RequestMethod.PUT })
-    public void crearPersona(@RequestBody Persona persona) {
+    public void modificarPersona(@RequestBody Persona persona) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Integer userId = ((User) authentication.getPrincipal()).getId();
@@ -42,8 +42,9 @@ public class Controller {
         personaService.modificarPersona(userId, persona);
     }
 
+    @CrossOrigin
     @GetMapping("/persona/{id}")
-    public Persona buscarPersona(@PathVariable Long id) {
+    public Persona obtenerPersona(@PathVariable Long id) {
 
         return personaService.obtenerPersona(id);
     }
