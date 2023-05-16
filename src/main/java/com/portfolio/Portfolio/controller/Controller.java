@@ -21,7 +21,7 @@ import com.portfolio.Portfolio.service.IPersonaService;
 import com.portfolio.Portfolio.service.IProyectoService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 public class Controller {
 
     @Autowired

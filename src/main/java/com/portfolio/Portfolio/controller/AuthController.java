@@ -18,7 +18,7 @@ import com.portfolio.Portfolio.service.IUserService;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 public class AuthController {
 
   @Autowired
