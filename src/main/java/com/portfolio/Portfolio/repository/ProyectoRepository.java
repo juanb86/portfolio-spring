@@ -4,10 +4,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.portfolio.Portfolio.model.Persona;
 import com.portfolio.Portfolio.model.Proyecto;
+import com.portfolio.Portfolio.model.User;
 
 public interface ProyectoRepository extends JpaRepository<Proyecto, Long> {
-  List<Proyecto> findByPersona(Persona persona);
-
+  List<Proyecto> findByUser(User user);
 }

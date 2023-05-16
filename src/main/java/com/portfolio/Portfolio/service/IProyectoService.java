@@ -6,12 +6,12 @@ import com.portfolio.Portfolio.model.Proyecto;
 
 public interface IProyectoService {
 
-  public List<Proyecto> verProyectos(Long id);
+  public void crearProyecto(Integer idUser, Proyecto proyecto);
 
-  public void crearProyecto(Proyecto proyecto,Long id);
+  public List<Proyecto> obtenerProyecto(Integer idUser);
+
+  public void modificarProyecto(Integer idUser, Long id, Proyecto proyecto);
 
   public void borrarProyecto(Long id);
-
-  public Proyecto buscarProyecto(Long id);
 
 }

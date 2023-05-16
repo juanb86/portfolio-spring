@@ -155,18 +155,33 @@ public class Controller {
         experienciaService.borrarExperiencia(id);
     }
 
-    // ---Controllers Proyectos---
-    @GetMapping("/{id}/proyectos")
-    public List<Proyecto> verProyectos(@PathVariable Long id) {
-        return proyectoService.verProyectos(id);
+    // ---Controllers Proyecto---
+    @PostMapping("/proyecto")
+    public void crearProyecto(@RequestBody Proyecto proyecto) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Integer userId = ((User) authentication.getPrincipal()).getId();
+
+        proyectoService.crearProyecto(userId, proyecto);
     }
 
-    @PostMapping("/{id}/proyectos")
-    public void agregarProyecto(@PathVariable Long id, @RequestBody Proyecto proyecto) {
-        proyectoService.crearProyecto(proyecto, id);
+    @GetMapping("/proyecto/user/{userId}")
+    public List<Proyecto> obtenerProyecto(@PathVariable Integer userId) {
+
+        return proyectoService.obtenerProyecto(userId);
     }
 
-    @DeleteMapping("/delete/proyecto/{id}")
+    @PutMapping("/proyecto/{id}")
+    public void modificarProyecto(@PathVariable Long id,
+            @RequestBody Proyecto proyecto) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Integer userId = ((User) authentication.getPrincipal()).getId();
+
+        proyectoService.modificarProyecto(userId, id, proyecto);
+    }
+
+    @DeleteMapping("/proyecto/{id}")
     public void borrarProyecto(@PathVariable Long id) {
         proyectoService.borrarProyecto(id);
     }

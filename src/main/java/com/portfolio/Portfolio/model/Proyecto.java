@@ -20,22 +20,33 @@ public class Proyecto {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
+  private String cliente;
   private String nombre;
+  private String tecnologias;
+  private String fechaInicio;
+  private String fechaFin;
   private String descripcion;
+  private String foto;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "persona_id")
+  @JoinColumn(name = "user_id")
   @JsonIgnore
-  private Persona persona;
+  private User user;
 
   public Proyecto() {
   }
 
-  public Proyecto(Long id, String nombre, String descripcion, Persona persona) {
+  public Proyecto(Long id, String cliente, String nombre, String tecnologias, String fechaInicio, String fechaFin,
+      String descripcion, String foto, User user) {
     this.id = id;
+    this.cliente = cliente;
     this.nombre = nombre;
+    this.tecnologias = tecnologias;
+    this.fechaInicio = fechaInicio;
+    this.fechaFin = fechaFin;
     this.descripcion = descripcion;
-    this.persona = persona;
+    this.foto = foto;
+    this.user = user;
   }
 
 }

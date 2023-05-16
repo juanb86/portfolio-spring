@@ -5,46 +5,55 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.portfolio.Portfolio.model.Persona;
 import com.portfolio.Portfolio.model.Proyecto;
-import com.portfolio.Portfolio.repository.PersonaRepository;
+import com.portfolio.Portfolio.model.User;
 import com.portfolio.Portfolio.repository.ProyectoRepository;
+import com.portfolio.Portfolio.repository.UserRepository;
 
 @Service
 public class ProyectoService implements IProyectoService {
 
   @Autowired
-  private ProyectoRepository proyectoRepository;
+  public ProyectoRepository proyectoRepo;
 
   @Autowired
-  private PersonaRepository personaRepository;
+  public UserRepository userRepo;
 
   @Override
-  public List<Proyecto> verProyectos(Long id) {
+  public void crearProyecto(Integer idUser, Proyecto proyecto) {
 
-    Persona persona = personaRepository.findById(id).orElse(null);
+    User user = userRepo.findById(idUser).orElse(null);
 
-    return proyectoRepository.findByPersona(persona);
+    proyecto.setUser(user);
+
+    proyectoRepo.save(proyecto);
   }
 
   @Override
-  public void crearProyecto(Proyecto proyecto, Long id) {
+  public void modificarProyecto(Integer idUser, Long idProyecto, Proyecto proyecto) {
 
-    Persona persona = personaRepository.findById(id).orElse(null);
+    User user = userRepo.findById(idUser).orElse(null);
 
-    proyecto.setPersona(persona);
+    if (user == null) {
+      return;
+    }
 
-    proyectoRepository.save(proyecto);
+    proyecto.setUser(user);
+    proyecto.setId(idProyecto);
+
+    proyectoRepo.save(proyecto);
   }
+
+  @Override
+  public List<Proyecto> obtenerProyecto(Integer idUser) {
+    User user = userRepo.findById(idUser).orElse(null);
+
+    return proyectoRepo.findByUser(user);
+  };
 
   @Override
   public void borrarProyecto(Long id) {
-    proyectoRepository.deleteById(id);
-  }
-
-  @Override
-  public Proyecto buscarProyecto(Long id) {
-    return proyectoRepository.findById(id).orElse(null);
+    proyectoRepo.deleteById(id);
   }
 
 }

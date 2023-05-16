@@ -65,7 +65,8 @@ public class SecurityConfig {
         .requestMatchers(HttpMethod.GET, "/persona/**",
             "/educacion/**",
             "/habilidad/**",
-            "/experiencia/**")
+            "/experiencia/**",
+            "/proyecto/**")
         .permitAll()
         .anyRequest().authenticated();
 
